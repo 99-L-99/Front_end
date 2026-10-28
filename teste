@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinhos Velozes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>tailwind.config={theme:{extend:{colors:{prim:'#165DFF',seg:'#FF7D00'}}}};</script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+<header class="bg-white shadow sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+    <h1 class="text-xl font-bold text-prim"><i class="fa-solid fa-car"></i> Carrinhos Velozes</h1>
+    <button class="md:hidden text-xl" onclick="menuMobile()"><i class="fa-solid fa-bars"></i></button>
+    <nav class="hidden md:flex gap-6 font-medium">
+      <a href="#" onclick="mostrarLista()">Início</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </div>
+  <div id="menu" class="hidden md:hidden bg-white border-t px-4 py-2">
+    <nav class="flex flex-col gap-2">
+      <a href="#" onclick="mostrarLista();menuMobile()">Início</a>
+      <a href="#sobre" onclick="menuMobile()">Sobre</a>
+      <a href="#contato" onclick="menuMobile()">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 py-6">
+
+  <div id="pagLista">
+    <h2 class="text-2xl font-bold text-center mb-6">Veículos Disponíveis</h2>
+    <div id="grade" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+    </div>
+  </div>
+
+  <div id="pagDetalhe" class="hidden">
+    <button onclick="mostrarLista()" class="text-prim mb-4 inline-block"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+    <div id="dados"></div>
+  </div>
+
+  <section id="sobre" class="mt-12 bg-white p-6 rounded-xl shadow">
+    <h3 class="text-xl font-bold mb-3">Sobre Nós</h3>
+    <p>Loja em Chapecó-SC, há mais de 10 anos oferecendo veículos revisados, preços justos e atendimento transparente.</p>
+  </section>
+  <section id="contato" class="mt-6 bg-white p-6 rounded-xl shadow">
+    <h3 class="text-xl font-bold mb-3">Contato</h3>
+    <p><i class="fa-solid fa-location-dot text-seg"></i> Av. Nereu Ramos, 1500 – Centro, Chapecó-SC</p>
+    <p><i class="fa-solid fa-phone text-seg"></i> (49) 99999-1234</p>
+    <p><i class="fa-solid fa-envelope text-seg"></i> contato@carrinhosvelozes.com.br</p>
+  </section>
+</main>
+
+<footer class="bg-gray-900 text-white text-center py-4 mt-8">
+  <p>© 2026 Carrinhos Velozes – Chapecó/SC</p>
+</footer>
+
+<script>
+const veiculos = [
+  {id:1,marca:'Toyota',modelo:'Corolla XEi',ano:2022,km:28500,cor:'Branco',preco:119900,img:"https://tse4.mm.bing.net/th/id/OIP.1m5byTK9GzfHFhMuLc9WjAAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+  desc:'Único dono, revisado, completo.',det:{comb:'Flex',pot:'177 cv',cambio:'Automático',portas:4}},
+  {id:2,marca:'Hyundai',modelo:'HB20 Evolution',ano:2023,km:15200,cor:'Prata',preco:79900,img:"https://tse4.mm.bing.net/th/id/OIP.SFCxkyxekWnGhBXoc6q3VwAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+  desc:'Quase novo, garantia até 2028.',det:{comb:'Flex',pot:'130 cv',cambio:'Manual/Automático',portas:4}},
+  {id:3,marca:'Fiat',modelo:'Pulse Abarth',ano:2022,km:32000,cor:'Vermelho',preco:94500,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Volkswagen_Passat_1.8T_2000_(13990095294).jpg/120px-Volkswagen_Passat_1.8T_2000_(13990095294).jpg",
+  desc:'Esportivo, revisões em dia.',det:{comb:'Gasolina',pot:'185 cv',cambio:'Automático CVT',portas:4}},
+  {id:4,marca:'Chevrolet',modelo:'Onix Plus LTZ',ano:2021,km:45000,cor:'Preto',preco:67900,img:"https://tse4.mm.bing.net/th/id/OIP.o3JQREo2DL29MEoGV9sqigAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+  desc:'Econômico, bem conservado.',det:{comb:'Flex',pot:'116 cv',cambio:'Automático',portas:4}}
+];
+
+const listaEl = document.getElementById('pagLista');
+const detEl = document.getElementById('pagDetalhe');
+const gradeEl = document.getElementById('grade');
+const dadosEl = document.getElementById('dados');
+
+function menuMobile(){document.getElementById('menu').classList.toggle('hidden');}
+
+function mostrarLista(){
+  listaEl.classList.remove('hidden');
+  detEl.classList.add('hidden');
+  window.scrollTo(0,0);
+}
+
+function mostrarDetalhe(id){
+  const v = veiculos.find(x=>x.id===id);
+  if(!v)return;
+  listaEl.classList.add('hidden');
+  detEl.classList.remove('hidden');
+  dadosEl.innerHTML = `
+    <div class="bg-white rounded-xl shadow overflow-hidden md:flex">
+      <img src="${v.img}" alt="${v.modelo}" class="w-full md:w-1/2 h-64 object-cover">
+      <div class="p-5 md:w-1/2">
+        <h2 class="text-2xl font-bold">${v.marca} ${v.modelo}</h2>
+        <p class="text-gray-500">${v.ano} • ${v.km.toLocaleString('pt-BR')} km • ${v.cor}</p>
+        <p class="text-prim text-2xl font-bold my-3">R$ ${v.preco.toLocaleString('pt-BR')}</p>
+        <p class="mb-4">${v.desc}</p>
+        <ul class="space-y-1 text-sm">
+          <li><strong>Combustível:</strong> ${v.det.comb}</li>
+          <li><strong>Potência:</strong> ${v.det.pot}</li>
+          <li><strong>Câmbio:</strong> ${v.det.cambio}</li>
+          <li><strong>Portas:</strong> ${v.det.portas}</li>
+        </ul>
+        <a href="tel:49999991234" class="mt-4 inline-block bg-seg text-white px-4 py-2 rounded-lg font-bold">
+          <i class="fa-solid fa-phone"></i> Ligar agora
+        </a>
+      </div>
+    </div>
+  `;
+  window.scrollTo(0,0);
+}
+
+
+veiculos.forEach(v=>{
+  const card = document.createElement('div');
+  card.className = 'bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition';
+  card.innerHTML = `
+    <img src="${v.img}" alt="${v.modelo}" class="w-full h-44 object-cover">
+    <div class="p-4">
+      <h3 class="font-bold text-lg">${v.marca} ${v.modelo}</h3>
+      <p class="text-gray-500 text-sm">${v.ano} • ${v.km.toLocaleString('pt-BR')} km</p>
+      <p class="text-prim font-bold text-xl mt-1">R$ ${v.preco.toLocaleString('pt-BR')}</p>
+      <button onclick="mostrarDetalhe(${v.id})" class="mt-3 w-full bg-seg text-white py-2 rounded-lg font-medium">Ver Detalhes</button>
+    </div>
+  `;
+  gradeEl.appendChild(card);
+});
+</script>
+</body>
+</html>
